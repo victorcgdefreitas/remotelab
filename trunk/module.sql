@@ -8,4 +8,5 @@ CREATE TABLE `remote_labs` (
   PRIMARY KEY  (`remote_lab_id`)
 ) ENGINE=MyISAM;
 
-INSERT INTO `language_text` VALUES ('en', '_module','remote_lab','Remote Laboratory',NOW(),'');
+INSERT INTO `language_text` VALUES ('en', '_module','remotelab','Remote Laboratory',NOW(),'');
+INSERT INTO `language_text` VALUES ('tr', '_module','remotelab','Uzaktan Eriþimli Laboratuar',NOW(),'');
