@@ -1,131 +1,173 @@
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
+# sql file for remote lab module
+-- 
+-- Tablo yapısı: `experiments`
+-- 
+
+CREATE TABLE `rl_experiments` (
+  `experiment_id` int(8) NOT NULL auto_increment,
+  `title` varchar(255) default NULL,
+  `package_id` mediumint(8) default NULL,
+  `maxallowedtimes` int(8) default NULL,
+  `visible` tinyint(1) default NULL,
+  `reservation_duration` mediumint(8) default NULL,
+  `start` timestamp NULL default NULL,
+  `end` timestamp NULL default NULL,
+  `time` timestamp NULL default NULL,
+  PRIMARY KEY  (`experiment_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- 
+-- Tablo döküm verisi `experiments`
+-- 
 
 
--- -----------------------------------------------------
--- Table `remote_labs`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `remote_labs` ;
+-- --------------------------------------------------------
 
-SHOW WARNINGS;
-CREATE  TABLE IF NOT EXISTS `remote_labs` (
-  `remote_lab_id` INT(8) NOT NULL AUTO_INCREMENT ,
-  `gateway_url` VARCHAR(255) NULL ,
-  `name` VARCHAR(255) NULL ,
-  `time` TIMESTAMP NOT NULL ,
-  `type` TINYINT(3) NULL ,
-  `course_id` MEDIUMINT(8) NULL ,
-  PRIMARY KEY (`remote_lab_id`) )
-ENGINE = MyISAM;
+-- 
+-- Tablo yapısı: `experiments_es`
+-- 
 
-SHOW WARNINGS;
+CREATE TABLE `rl_experiments_es` (
+  `experiments_es_id` int(8) NOT NULL auto_increment,
+  `experiment_set_id` int(8) NOT NULL,
+  `experiment_id` int(8) NOT NULL,
+  PRIMARY KEY  (`experiments_es_id`),
+  KEY `fk_experiments_es_experiment_sets` (`experiment_set_id`),
+  KEY `fk_experiments_es_experiments` (`experiment_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- -----------------------------------------------------
--- Table `experiment_sets`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `experiment_sets` ;
-
-SHOW WARNINGS;
-CREATE  TABLE IF NOT EXISTS `experiment_sets` (
-  `experiment_set_id` INT NOT NULL AUTO_INCREMENT ,
-  `remote_lab_id` INT NOT NULL ,
-  `set_code` VARCHAR(255) NULL ,
-  `name` VARCHAR(255) NULL ,
-  PRIMARY KEY (`experiment_set_id`) ,
-  CONSTRAINT `fk_experiment_sets_remote_labs`
-    FOREIGN KEY (`remote_lab_id` )
-    REFERENCES `mydb`.`remote_labs` (`remote_lab_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = MyISAM;
-
-SHOW WARNINGS;
-CREATE INDEX `fk_experiment_sets_remote_labs` ON `experiment_sets` (`remote_lab_id` ASC) ;
-
-SHOW WARNINGS;
-
--- -----------------------------------------------------
--- Table `experiments`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `experiments` ;
-
-SHOW WARNINGS;
-CREATE  TABLE IF NOT EXISTS `experiments` (
-  `experiment_id` INT(8) NOT NULL AUTO_INCREMENT ,
-  `title` VARCHAR(255) NULL ,
-  `package_id` MEDIUMINT(8) NULL ,
-  `maxallowedtimes` INT(8) NULL ,
-  `visible` BOOLEAN NULL ,
-  `reservation_duration` MEDIUMINT(8) NULL ,
-  `start` TIMESTAMP NULL ,
-  `end` TIMESTAMP NULL ,
-  `time` TIMESTAMP NULL ,
-  PRIMARY KEY (`experiment_id`) )
-ENGINE = MyISAM;
-
-SHOW WARNINGS;
-
--- -----------------------------------------------------
--- Table `experiments_es`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `experiments_es` ;
-
-SHOW WARNINGS;
-CREATE  TABLE IF NOT EXISTS `experiments_es` (
-  `experiments_es_id` INT(8) NOT NULL AUTO_INCREMENT ,
-  `experiment_set_id` INT(8) NOT NULL ,
-  `experiment_id` INT(8) NOT NULL ,
-  PRIMARY KEY (`experiments_es_id`) ,
-  CONSTRAINT `fk_experiments_es_experiment_sets`
-    FOREIGN KEY (`experiment_set_id` )
-    REFERENCES `mydb`.`experiment_sets` (`experiment_set_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_experiments_es_experiments`
-    FOREIGN KEY (`experiment_id` )
-    REFERENCES `mydb`.`experiments` (`experiment_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = MyISAM;
-
-SHOW WARNINGS;
-CREATE INDEX `fk_experiments_es_experiment_sets` ON `experiments_es` (`experiment_set_id` ASC) ;
-
-SHOW WARNINGS;
-CREATE INDEX `fk_experiments_es_experiments` ON `experiments_es` (`experiment_id` ASC) ;
-
-SHOW WARNINGS;
-
--- -----------------------------------------------------
--- Table `reservations`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `reservations` ;
-
-SHOW WARNINGS;
-CREATE  TABLE IF NOT EXISTS `reservations` (
-  `reservation_id` INT(8) NOT NULL AUTO_INCREMENT ,
-  `experiments_es_id` INT(8) NOT NULL ,
-  `member_id` INT(8) NULL ,
-  `start_time` TIMESTAMP NULL ,
-  PRIMARY KEY (`reservation_id`) ,
-  CONSTRAINT `fk_reservations_experiments_es`
-    FOREIGN KEY (`experiments_es_id` )
-    REFERENCES `mydb`.`experiments_es` (`experiments_es_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = MyISAM;
-
-SHOW WARNINGS;
-CREATE INDEX `fk_reservations_experiments_es` ON `reservations` (`experiments_es_id` ASC) ;
-
-SHOW WARNINGS;
+-- 
+-- Tablo döküm verisi `experiments_es`
+-- 
 
 
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+-- --------------------------------------------------------
+
+-- 
+-- Tablo yapısı: `experiment_sets`
+-- 
+
+CREATE TABLE `rl_experiment_sets` (
+  `experiment_set_id` int(11) NOT NULL auto_increment,
+  `remote_lab_id` int(11) NOT NULL,
+  `set_code` varchar(255) default NULL,
+  `name` varchar(255) default NULL,
+  PRIMARY KEY  (`experiment_set_id`),
+  KEY `fk_experiment_sets_remote_labs` (`remote_lab_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- 
+-- Tablo döküm verisi `experiment_sets`
+-- 
+
+
+-- --------------------------------------------------------
+
+-- 
+-- Tablo yapısı: `remote_labs`
+-- 
+
+CREATE TABLE `rl_remote_labs` (
+  `remote_lab_id` int(8) NOT NULL auto_increment,
+  `gateway_url` varchar(255) default NULL,
+  `name` varchar(255) default NULL,
+  `time` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `type` tinyint(3) default NULL,
+  `course_id` mediumint(8) default NULL,
+  PRIMARY KEY  (`remote_lab_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- 
+-- Tablo döküm verisi `remote_labs`
+-- 
+
+
+-- --------------------------------------------------------
+
+-- 
+-- Tablo yapısı: `reservations`
+-- 
+
+CREATE TABLE `rl_reservations` (
+  `reservation_id` int(8) NOT NULL auto_increment,
+  `experiments_es_id` int(8) NOT NULL,
+  `member_id` int(8) default NULL,
+  `start_time` timestamp NULL default NULL,
+  PRIMARY KEY  (`reservation_id`),
+  KEY `fk_reservations_experiments_es` (`experiments_es_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- 
+-- Tablo döküm verisi `reservations`
+--
+-- --------------------------------------------------------
+
+--
+-- Tablo yapısı: `rl_scorm_1_2_org`
+--
+CREATE TABLE `rl_scorm_1_2_org` (
+  `org_id` mediumint(8) unsigned NOT NULL auto_increment,
+  `package_id` mediumint(8) unsigned NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `credit` varchar(15) NOT NULL default 'no-credit',
+  `lesson_mode` varchar(15) NOT NULL default 'browse',
+  PRIMARY KEY  (`org_id`),
+  KEY `package_id` (`package_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo yapısı: `rl_scorm_1_2_item`
+--
+
+CREATE TABLE `rl_scorm_1_2_item` (
+  `item_id` mediumint(8) unsigned NOT NULL auto_increment,
+  `org_id` mediumint(8) unsigned NOT NULL,
+  `idx` varchar(15) NOT NULL,
+  `title` varchar(255) default NULL,
+  `href` varchar(255) default NULL,
+  `scormtype` varchar(15) default NULL,
+  `prerequisites` varchar(255) default NULL,
+  `maxtimeallowed` varchar(255) default NULL,
+  `timelimitaction` varchar(255) default NULL,
+  `datafromlms` varchar(255) default NULL,
+  `masteryscore` mediumint(8) default NULL,
+  PRIMARY KEY  (`item_id`),
+  KEY `org_id` (`org_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo yapısı: `rl_packages`
+--
+
+CREATE TABLE `rl_packages` (
+  `package_id` mediumint(8) unsigned NOT NULL auto_increment,
+  `source` varchar(255) NOT NULL,
+  `time` datetime NOT NULL,
+  `course_id` mediumint(8) unsigned NOT NULL,
+  `ptype` varchar(63) NOT NULL,
+  PRIMARY KEY  (`package_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo yapısı: `rl_cmi`
+--
+
+CREATE TABLE `rl_cmi` (
+  `cmi_id` mediumint(8) unsigned NOT NULL auto_increment,
+  `item_id` mediumint(8) unsigned NOT NULL,
+  `member_id` mediumint(8) unsigned NOT NULL,
+  `lvalue` varchar(63) NOT NULL,
+  `rvalue` blob,
+  PRIMARY KEY  (`cmi_id`),
+  UNIQUE KEY `item_id` (`item_id`,`member_id`,`lvalue`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 
 INSERT INTO `language_text` VALUES ('en', '_module','remotelab','Remote Laboratory',NOW(),'');
-INSERT INTO `language_text` VALUES ('tr', '_module','remotelab','Uzaktan Eri?imli Laboratuar',NOW(),'');
-
+INSERT INTO `language_text` VALUES ('tr', '_module','remotelab','Uzaktan Erişimli Laboratuar',NOW(),' ');
