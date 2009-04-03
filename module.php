@@ -26,18 +26,33 @@ $_group_tool = $_student_tool = 'mods/remotelab/index.php';
 
 $this->_pages['mods/remotelab/index_instructor.php']['title_var'] = 'remotelab';
 $this->_pages['mods/remotelab/index_instructor.php']['parent'] = 'tools/index.php';
-$this->_pages['mods/remotelab/index_instructor.php']['children'] = array('mods/remotelab/remote_labs.php','mods/remotelab/experiment_sets.php','mods/remotelab/experiments.php','mods/remotelab/reservations.php','mods/remotelab/reports.php');
+$this->_pages['mods/remotelab/index_instructor.php']['children'] = array('mods/remotelab/remote_labs.php','mods/remotelab/experiment_sets.php','mods/remotelab/experiments.php','tools/packages/index.php','mods/remotelab/reservations.php','mods/remotelab/reports.php');
 
 $this->_pages['mods/remotelab/remote_labs.php']['title_var'] = 'laboratories';
 $this->_pages['mods/remotelab/remote_labs.php']['parent'] = 'tools/index.php';
+$this->_pages['mods/remotelab/remote_labs.php']['parent'] = 'mods/remotelab/index_instructor.php';
+
 $this->_pages['mods/remotelab/experiment_sets.php']['title_var'] = 'experiment_sets';
 $this->_pages['mods/remotelab/experiment_sets.php']['parent']   = 'tools/index.php';
+$this->_pages['mods/remotelab/experiment_sets.php']['parent'] = 'mods/remotelab/index_instructor.php';
+
 $this->_pages['mods/remotelab/experiments.php']['title_var'] = 'experiments';
 $this->_pages['mods/remotelab/experiments.php']['parent']   = 'tools/index.php';
+$this->_pages['mods/remotelab/experiments.php']['parent'] = 'mods/remotelab/index_instructor.php';
+
+$this->_pages['mods/remotelab/experiments_cmi.php']['title_var'] = 'experiments_cmi';
+$this->_pages['mods/remotelab/experiments_cmi.php']['parent']   = 'tools/index.php';
+$this->_pages['mods/remotelab/experiments_cmi.php']['parent'] = 'mods/remotelab/index_instructor.php';
+
+$this->_pages['tools/packages/index.php']['title_var'] = 'scorm_packages';
+
 $this->_pages['mods/remotelab/reservations.php']['title_var'] = 'reservations';
 $this->_pages['mods/remotelab/reservations.php']['parent']   = 'tools/index.php';
+$this->_pages['mods/remotelab/reservations.php']['parent'] = 'mods/remotelab/index_instructor.php';
+
 $this->_pages['mods/remotelab/reports.php']['title_var'] = 'reports';
 $this->_pages['mods/remotelab/reports.php']['parent']   = 'tools/index.php';
+$this->_pages['mods/remotelab/reports.php']['parent'] = 'mods/remotelab/index_instructor.php';
 
 /*******
  * student page.
@@ -50,6 +65,12 @@ $this->_pages['mods/remotelab/reservations_student.php']['title_var'] = 'my_rese
 $this->_pages['mods/remotelab/reservations_student.php']['parent'] = 'mods/remotelab/index.php';
 $this->_pages['mods/remotelab/reports_student.php']['title_var'] = 'my_experiments_reports';
 $this->_pages['mods/remotelab/reports_student.php']['parent'] = 'mods/remotelab/index.php';
+
+$this->_pages['mods/remotelab/reservations_create.php']['title_var'] = 'resevations_create';
+$this->_pages['mods/remotelab/reservations_create.php']['parent']   = 'mods/remotelab/index.php';
+
+$this->_pages['mods/remotelab/experiment_view.php']['title_var'] = 'experiment_view';
+$this->_pages['mods/remotelab/experiment_view.php']['parent']   = 'mods/remotelab/index.php';
 //$this->_pages['mods/remotelab/index.php']['img']       = 'mods/remotelab/remote_lab.jpg';
 
 

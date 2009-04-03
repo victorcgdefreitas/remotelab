@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="ISO-8859-9"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <module version="0.1">
     <name lang="en">Remote Laboratory</name>
     <description lang="en">Allows instructors to include Remote Laboratory in a course.</description>
     <maintainers>
         <maintainer>
-            <name>Uğur YILDIZ</name>
+            <name>UÄŸur YILDIZ</name>
             <email>ugur@uguryildiz.net</email>
         </maintainer>
     </maintainers>
